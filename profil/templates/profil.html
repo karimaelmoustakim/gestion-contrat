@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .card-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .card-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn-edit-profile {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-edit-profile:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        /* Custom styles for form inputs */
+        input[type=text], input[type=email], input[type=password] {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+        /* Adjust confirm and cancel buttons */
+        #confirmBtn, #cancelBtn {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'accueil' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" height="30">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'accueil' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'welcome' %}">Welcome <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'contrat' %}">Contracts</a>
+                        <a class="dropdown-item" href="{% url 'notifications' %}">Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'contact' %}">Contact Us</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'login' %}">Log Out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Your Profile</h5>
+                <form id="profileForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="oldPassword">Old Password:</label>
+                        <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="editProfileBtn" class="btn btn-edit-profile">Edit Profile</button>
+                        <button type="button" id="confirmBtn" class="btn btn-primary d-none">Confirm</button>
+                        <button type="button" id="cancelBtn" class="btn btn-secondary d-none">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#editProfileBtn').click(function() {
+                $('#username').prop('readonly', false);
+                $('#email').prop('readonly', false);
+                $('#oldPassword').prop('readonly', false); // Enable old password input
+                $('#newPassword').prop('readonly', false); // Enable new password input
+                $('#editProfileBtn').addClass('d-none');
+                $('#confirmBtn').removeClass('d-none');
+                $('#cancelBtn').removeClass('d-none');
+            });
+
+            $('#cancelBtn').click(function() {
+                $('#username').prop('readonly', true);
+                $('#email').prop('readonly', true);
+                $('#oldPassword').prop('readonly', true); // Disable old password input
+                $('#newPassword').prop('readonly', true); // Disable new password input
+                $('#editProfileBtn').removeClass('d-none');
+                $('#confirmBtn').addClass('d-none');
+                $('#cancelBtn').addClass('d-none');
+            });
+
+            $('#confirmBtn').click(function() {
+                var oldPassword = $('#oldPassword').val();
+                var newPassword = $('#newPassword').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'update_profile' %}",
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'username': $('#username').val(),
+                        'email': $('#email').val(),
+                        'oldPassword': oldPassword,
+                        'newPassword': newPassword
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            alert('Changes saved successfully!');
+                            location.reload(); // Reload the page to reflect changes
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Error saving changes. Please try again.');
+                    }
+                });
+            });
+
+            // Disable inputs initially
+            $('#username').prop('readonly', true);
+            $('#email').prop('readonly', true);
+            $('#oldPassword').prop('readonly', true);
+            $('#newPassword').prop('readonly', true);
+        });
+    </script>
+</body>
+</html>

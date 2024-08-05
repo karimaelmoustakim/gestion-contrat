@@ -1,0 +1,86 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Paiements pour le Contrat {{ contract.contract_number }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Paiements pour le Contrat : {{ contract.contract_number }}</h1>
+    <a class="btn btn-primary mb-3" href="{% url 'add_payment' contract.id %}">Ajouter un Paiement</a>
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="card-title mb-0">Liste des Paiements</h2>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for payment in payments %}
+                <li class="list-group-item d-flex justify-content-between align-items-center {% if payment.status == 'pending' %}bg-warning{% endif %}">
+                    <div>
+                        <a href="{% url 'payment_detail' payment.id %}" class="text-dark">
+                            <strong>{{ payment.payment_date }}</strong> - <span class="text-muted">{{ payment.amount }}</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{% url 'edit_payment' payment.id %}" class="btn btn-sm btn-secondary badge">Edit</a>
+                        <form method="post" action="{% url 'delete_payment' payment.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger badge" onclick="return confirm('Are you sure you want to delete this payment?');">Delete</button>
+                        </form>
+                        <span class="badge {% if payment.status == 'pending' %}badge-danger{% else %}badge-secondary{% endif %}">{{ payment.status }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Roboto', sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+    }
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid #ddd;
+        padding: 15px 20px;
+        background-color: #fff;
+        transition: background-color 0.2s ease;
+    }
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+    .list-group-item a {
+        text-decoration: none;
+    }
+    .badge {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+    }
+    .bg-warning {
+        background-color: #fff3cd !important;
+    }
+    .badge-danger {
+        background-color: #d9534f;
+    }
+    .badge-secondary {
+        background-color: #6c757d;
+    }
+    .btn-sm.badge {
+        padding: 5px 10px;
+        font-size: 0.85rem;
+        border: none;
+        cursor: pointer;
+    }
+</style>

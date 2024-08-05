@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Gestion de Contrats</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Navbar Styles */
+        .navbar {
+            background-color: #343a40; /* Dark background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        .navbar-brand img {
+            max-height: 40px; /* Adjust logo height */
+            margin-right: 10px; /* Spacing between logo and text */
+        }
+        .navbar-brand span {
+            font-size: 1.2rem; /* Larger font size for brand text */
+            font-weight: bold; /* Bold font weight */
+            color: #ffffff; /* White color */
+        }
+        .navbar-toggler {
+            border: none;
+            background-color: transparent;
+        }
+        .navbar-toggler-icon {
+            color: #ffffff; /* White color for toggler icon */
+        }
+        .navbar-nav {
+            align-items: center; /* Center items vertically */
+        }
+        .nav-item {
+            margin-right: 10px; /* Margin between items */
+        }
+        .nav-link {
+            color: #ffffff !important; /* White text color */
+            font-weight: bold; /* Bold font weight */
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover {
+            color: #637384 !important; /* Blue hover color */
+        }
+        .dropdown-menu {
+            background-color: #343a40; /* Dark background */
+            border: none; /* Remove border */
+        }
+        .dropdown-item {
+            color: #ffffff !important; /* White text color */
+        }
+        .dropdown-item:hover {
+            background-color: #606b77; /* Blue hover color */
+        }
+        /* Jumbotron Styles */
+        .jumbotron {
+            background-image: url("{% static 'images/welcom.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 150px 0;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+            overflow: hidden; /* Ensure animation stays within jumbotron boundaries */
+        }
+        .jumbotron:before {
+            content: "";
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            animation: animatedBackground 20s ease infinite;
+        }
+        @keyframes animatedBackground {
+            0% { transform: translateX(-50%) scale(1.2); }
+            50% { transform: translateX(0%) scale(1); }
+            100% { transform: translateX(50%) scale(1.2); }
+        }
+        .jumbotron-content {
+            position: relative;
+            z-index: 2;
+        }
+        .jumbotron h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            animation: fadeInDown 1s ease-out;
+        }
+        .jumbotron p {
+            font-size: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Floating Icons Styles */
+        .floating-icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        .floating-icons i {
+            display: inline-block;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: float 5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        /* Feature Cards Styles */
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .feature-card .card-body {
+            padding: 20px;
+        }
+        /* Parallax Section Styles */
+        .parallax {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-image: url("{% static 'images/background2.jpg' %}");
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+        }
+        .parallax-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 50px 0;
+        }
+        /* Scroll Down Indicator Styles */
+        .scroll-down-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            animation: fadeIn 1s ease-out infinite;
+        }
+        .chevron {
+            margin-top: 10px;
+            width: 24px;
+            height: 24px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <!-- Logo linked to accueil page -->
+            <a class="navbar-brand" href="{% url 'accueil' %}">
+                <img src="{% static 'images/logo1.jpg' %}" alt="Logo">
+                <span>Gestion de Contrats</span>
+            </a>
+
+            <!-- Hamburger menu toggle button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Right-aligned links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accueil' %}">Home</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profil' %}">{{ user.username }}</a>
+                        </li>
+                        <!-- Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'contrat' %}">Contracts</a>
+                                <a class="dropdown-item" href="{% url 'notifications' %}">Notifications</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'contact' %}">Contact Us</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'login' %}">Log Out</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <!-- If not authenticated, show login and register links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Introduction Section -->
+    <div class="jumbotron">
+        <div class="container jumbotron-content">
+            <h1 class="display-4">Welcome to your Account</h1>
+            <p class="lead">Where you can keep up with your contract information.</p>
+        </div>
+        <div class="floating-icons">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-rocket"></i>
+            <!-- Add more icons as desired -->
+        </div>
+        <div class="scroll-down-indicator">
+            <p>Scroll down to explore</p>
+            <div class="chevron"></div>
+        </div>
+    </div>
+
+    <!-- Additional Content Section (optional) -->
+    <div id="section2" class="container mt-5">
+        <h2 class="text-center mb-5">Explorez nos fonctionnalités</h2>
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Suivi des Contrats</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at eros nec justo ultricies scelerisque. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Notification des Échéances</h5>
+                        <p class="card-text">Pellentesque nec urna non nisi fermentum lobortis. Duis vestibulum felis sed lacus tristique, vel posuere ipsum condimentum.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Gestion Intuitive des Utilisateurs</h5>
+                        <p class="card-text">Suspendisse potenti. Cras in arcu ut elit rhoncus malesuada. Nullam condimentum varius odio, non blandit neque sollicitudin nec.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parallax Section -->
+    <div class="parallax">
+        <div class="parallax-overlay">
+            <div class="container">
+                <h2 class="mb-4">Optimisez la Gestion de Vos Contrats</h2>
+                <p class="lead mb-5">Découvrez notre plateforme avancée pour simplifier la gestion quotidienne de vos contrats.</p>
+                <a href="#" class="btn btn-primary btn-lg">Commencer Maintenant</a>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Gestion de Contrats. Tous droits réservés.</p>
+    </footer>
+    <!-- Scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

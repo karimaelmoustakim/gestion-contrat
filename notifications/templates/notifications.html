@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .notification-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .notification-card:hover {
+            transform: translateY(-5px);
+        }
+        .notification-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .notification-body {
+            padding: 20px;
+        }
+        .notification-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notification-actions .btn {
+            margin-right: 10px;
+        }
+        .notification-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        .high-priority {
+            color: red;
+        }
+        .medium-priority {
+            color: orange;
+        }
+        .low-priority {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- Logo linked to accueil page -->
+        <a class="navbar-brand" href="{% url 'accueil' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" height="30">
+        </a>
+
+        <!-- Hamburger menu toggle button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Right-aligned links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'accueil' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'welcome' %}">Welcome <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
+            <!-- User menu -->
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <!-- Link to Profile -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profil' %}">{{ user.username }}</a>
+                    </li>
+                    <!-- Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!-- Replace "Menu" with hamburger icon -->
+                            <span class="navbar-toggler-icon"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'contrat' %}">Contracts</a>
+                            <a class="dropdown-item" href="{% url 'notifications' %}">Notifications</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'contact' %}">Contact Us</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'login' %}">Log Out</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <!-- If not authenticated, show login and register links -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center">Notifications</h1>
+        {% if notifications %}
+            <div class="list-group">
+                {% for notification in notifications %}
+                    <div class="card notification-card">
+                        <div class="card-body notification-body">
+                            <div class="notification-actions">
+                                <div>
+                                    {% if notification.priority == 'high' %}
+                                        <i class="fas fa-exclamation-circle notification-icon high-priority"></i>
+                                    {% elif notification.priority == 'medium' %}
+                                        <i class="fas fa-exclamation-triangle notification-icon medium-priority"></i>
+                                    {% else %}
+                                        <i class="fas fa-info-circle notification-icon low-priority"></i>
+                                    {% endif %}
+                                    {{ notification.message }}
+                                </div>
+                                <div class="btn-group">
+                                    {% if not notification.read %}
+                                        <a href="{% url 'mark_notification_read' notification.id %}" class="btn btn-outline-primary btn-sm">Marquer comme lu</a>
+                                    {% else %}
+                                        <span class="badge badge-success p-2">Lu</span>
+                                    {% endif %}
+                                    <form method="post" action="{% url 'delete_notification' notification.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger btn-sm ml-2">Supprimer</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <small class="text-muted">{{ notification.created_at }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Aucune notification trouvée.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

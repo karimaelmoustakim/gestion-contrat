@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5; /* Light gray background */
+            color: #495057; /* Dark gray text color */
+        }
+
+        .jumbotron {
+            background-color: #ffffff; /* White background for jumbotron */
+            padding: 4rem; /* Padding inside jumbotron */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            text-align: center; /* Center align text */
+        }
+
+        .form-container {
+            background-color: #ffffff; /* White background for form container */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 3rem; /* Padding inside form container */
+        }
+
+        .form-title {
+            font-size: 2rem; /* Larger font size for form title */
+            font-weight: bold; /* Bold font weight */
+            margin-bottom: 2rem; /* Bottom margin for form title */
+            color: #007bff; /* Blue color for form title */
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem; /* Spacing between form groups */
+            text-align: left; /* Left align form labels */
+        }
+
+        .form-control {
+            border-radius: 5px; /* Rounded corners for form inputs */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Blue background for primary button */
+            border-color: #007bff; /* Blue border color */
+            font-size: 1.2rem; /* Larger font size for button text */
+            padding: 0.75rem 1.5rem; /* Padding inside button */
+            transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue background on hover */
+            border-color: #0056b3; /* Darker blue border color */
+        }
+
+        .btn-floating {
+            font-size: 1.5rem; /* Larger icon size for social buttons */
+            color: #ffffff; /* White icon color */
+            background-color: #6c757d; /* Gray background for social buttons */
+            border: none; /* No border */
+            transition: background-color 0.3s; /* Smooth hover transition */
+        }
+
+        .btn-floating:hover {
+            background-color: #343a40; /* Darker background on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Section: Design Block -->
+    <section>
+        <!-- Jumbotron -->
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="jumbotron">
+                        <h1 class="display-4 mb-4">Join Us Today!</h1>
+                        <p class="lead">
+                            Discover the best offers for your business and boost your growth with us.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-container">
+                        <h2 class="form-title mb-4">Register</h2>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_username">Username</label>
+                                <input type="text" id="id_username" name="username" class="form-control">
+                                <!-- Display errors if any -->
+                                {{ form.username.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_email">Email</label>
+                                <input type="email" id="id_email" name="email" class="form-control">
+                                <!-- Display errors if any -->
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_password1">Password</label>
+                                <input type="password" id="id_password1" name="password1" class="form-control">
+                                <!-- Display errors if any -->
+                                {{ form.password1.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_password2">Confirm Password</label>
+                                <input type="password" id="id_password2" name="password2" class="form-control">
+                                <!-- Display errors if any -->
+                                {{ form.password2.errors }}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+                            <p class="text-center mb-0">or sign up with:</p>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-floating mx-1">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button type="button" class="btn btn-floating mx-1">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button type="button" class="btn btn-floating mx-1">
+                                    <i class="fab fa-twitter"></i>
+                                </button>
+                                <button type="button" class="btn btn-floating mx-1">
+                                    <i class="fab fa-github"></i>
+                                </button>
+                            </div>
+                            <p class="mt-3 mb-0">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Jumbotron -->
+    </section>
+    <!-- Section: Design Block -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+</body>
+</html>

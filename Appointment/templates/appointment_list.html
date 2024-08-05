@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+{% block title %}Appointments{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Your Appointments</h1>
+    <a href="{% url 'appointment_create' %}" class="btn btn-primary mb-3">Create New Appointment</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.title }}</td>
+                <td>{{ appointment.start_time }}</td>
+                <td>{{ appointment.end_time }}</td>
+                <td>{{ appointment.status }}</td>
+                <td>
+                    <a href="{% url 'appointment_edit' appointment.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <form method="post" action="{% url 'appointment_delete' appointment.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

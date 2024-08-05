@@ -1,0 +1,102 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Edit Payment{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Edit Payment</h1>
+    <div class="card shadow-sm p-4 mb-5 bg-white rounded">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Roboto', sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+        max-width: 600px;
+    }
+    h1 {
+        font-size: 2rem;
+        color: #007bff;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .card {
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+    .card-body {
+        padding: 30px;
+    }
+    .btn-primary {
+        margin-top: 20px;
+        background-color: #007bff;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 5px;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .btn-primary:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    form {
+        width: 100%;
+    }
+    form .form-group {
+        margin-bottom: 15px;
+    }
+    form label {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    form input, form select, form textarea {
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        padding: 12px;
+        width: 100%;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    form input:focus, form select:focus, form textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .form-control::placeholder {
+        color: #888;
+        opacity: 1;
+    }
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    .input-group-text {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px 0 0 5px;
+    }
+</style>

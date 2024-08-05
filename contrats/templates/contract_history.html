@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique du Contrat</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 15px 20px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #eee;
+            padding: 20px;
+            background-color: #fff;
+            transition: background-color 0.2s ease;
+        }
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+        .list-group-item strong {
+            color: #007bff;
+        }
+        .no-modifications {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+        .badge {
+            background-color: #007bff;
+            color: white;
+            font-size: 0.75rem;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+        .change-description {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        .change-user {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Historique du Contrat : {{ contract.contract_number }}</h1>
+        <div class="card mt-4">
+            <div class="card-header">Détails des Modifications</div>
+            <div class="card-body">
+                {% if history %}
+                    <ul class="list-group">
+                        {% for entry in history %}
+                            <li class="list-group-item">
+                                <div>
+                                    <strong>{{ entry.change_date|date:"d M Y, H:i" }}</strong>
+                                    <span class="badge">{{ entry.change_description|slice:":10" }}...</span>
+                                </div>
+                                <div class="change-description">{{ entry.change_description }}</div>
+                                <div class="change-user">par {{ entry.user.username }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-modifications">Aucune modification trouvée.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

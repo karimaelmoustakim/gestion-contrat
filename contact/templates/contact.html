@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactez-nous - Gestion de Contrats</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            padding-top: 60px; /* Adjust based on your navbar height */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        /* Custom styles for the navbar */
+        .navbar {
+            background-color: #343a40; /* Dark background color */
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: #fff; /* White text color */
+            text-decoration: none; /* Remove underline */
+            font-size: 24px;
+        }
+
+        .navbar-nav {
+            float: right;
+        }
+
+        .navbar-nav .nav-item {
+            margin-left: 10px;
+        }
+
+        .navbar-nav .nav-item a {
+            color: #fff; /* White text color */
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Adjust username size and style */
+        .navbar-text {
+            font-size: 1.2rem; /* Larger font size */
+            font-weight: bold; /* Bold font weight */
+            color: #ffffff; /* White color */
+            margin-right: 10px; /* Margin for spacing */
+        }
+
+        /* Centering logo and home link */
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-nav .nav-link {
+            margin: 0 10px;
+        }
+
+        /* Dropdown menu adjustments */
+        .dropdown-menu {
+            background-color: #343a40; /* Dark background color */
+            border: 1px solid rgba(255, 255, 255, 0.15); /* White border */
+            opacity: 0;
+            transform-origin: top;
+            transform: scaleY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            position: absolute !important; /* Important to override default positioning */
+        }
+
+        .dropdown-item {
+            color: #ffffff; /* White text color */
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-color: #007bff; /* Blue hover color */
+        }
+
+        .dropdown-divider {
+            background-color: rgba(255, 255, 255, 0.15); /* White divider color */
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        /* Hamburger menu styles */
+        .navbar-toggler {
+            border: none;
+            background-color: transparent;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3e%3cpath stroke="rgba(255, 255, 255, 0.5)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" /%3e%3c/svg%3e');
+            width: 30px;
+            height: 30px;
+        }
+
+        .navbar-toggler:hover .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3e%3cpath stroke="rgba(255, 255, 255, 0.8)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" /%3e%3c/svg%3e');
+        }
+
+        .navbar-toggler:focus .navbar-toggler-icon {
+            outline: none; /* Remove focus outline */
+        }
+
+        /* Adjustments for mobile screens */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column; /* Stack items vertically */
+                margin-top: 10px; /* Margin for better spacing */
+            }
+
+            .nav-item {
+                margin: 5px 0; /* Margin between items */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- Logo linked to accueil page -->
+        <a class="navbar-brand" href="{% url 'accueil' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" height="30">
+        </a>
+
+        <!-- Hamburger menu toggle button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Right-aligned links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'accueil' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'welcome' %}">Welcome <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
+            <!-- User menu -->
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <!-- Link to Profile -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profil' %}">{{ user.username }}</a>
+                    </li>
+                    <!-- Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!-- Replace "Menu" with hamburger icon -->
+                            <span class="navbar-toggler-icon"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'contrat' %}">Contracts</a>
+                            <a class="dropdown-item" href="#">Notifications</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#section5">Contact Us</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'login' %}">Log Out</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <!-- If not authenticated, show login and register links -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenu de la page -->
+    <div class="container" style="margin-top: 80px;">
+        <h2>Contactez-nous</h2>
+        
+        <div class="contact-info">
+            <p><strong>Email:</strong> contact@gestiondecontrats.com</p>
+            <p><strong>Téléphone:</strong> +33 123 456 789</p>
+            <p><strong>Adresse:</strong> 123 Rue des Contrats, 75000 Paris, France</p>
+        </div>
+        
+        <p>Pour toute question ou demande d'assistance, n'hésitez pas à nous contacter via les informations ci-dessus.</p>
+    </div>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

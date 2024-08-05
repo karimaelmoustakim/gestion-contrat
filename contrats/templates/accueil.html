@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Gestion de Contrats</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Ajoutez ici vos styles CSS personnalisés */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        .navbar {
+            background-color: #343a40;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .navbar-brand img {
+            height: 30px;
+            filter: brightness(0) invert(1); /* Inverse la couleur du logo */
+        }
+        .jumbotron {
+            background-image: url("{% static 'images/image.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden; /* Masque le débordement de l'image */
+        }
+        .jumbotron:before {
+            content: "";
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+        .jumbotron h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        .jumbotron p {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        #section2 {
+            padding: 4rem 0;
+        }
+        .feature-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .feature-box:hover {
+            transform: translateY(-10px);
+        }
+        .feature-box i {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        .feature-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .feature-box p {
+            color: #6c757d;
+        }
+        .section-heading {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        #section5 {
+            background-color: #343a40;
+            color: white;
+            padding: 80px 0;
+        }
+        .contact-info {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .carousel-item img {
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            border-radius: 50%;
+        }
+        .carousel-item img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            filter: invert(100%);
+        }
+        /* Nouveaux styles pour les sections supplémentaires */
+        #section3 {
+            background-color: #f8f9fa;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .team-member {
+            margin-bottom: 3rem;
+        }
+        .team-member img {
+            max-width: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .team-member img:hover {
+            transform: scale(1.1);
+        }
+        .team-member h3 {
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .team-member p {
+            color: #6c757d;
+        }
+        #section7 {
+            background-color: #e4e7ea;
+            color: rgb(19, 18, 18);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .testimonial {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .testimonial:hover {
+            transform: translateY(-10px);
+        }
+        .testimonial p {
+            font-style: italic;
+        }
+        .testimonial-author {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'accueil' %}">
+            <img src="{% static 'images/logo11.png' %}" alt="Logo" height="30">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#section2">A Propos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#section5">Contactez-nous</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">S'inscrire</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Se Connecter</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Jumbotron (Section d'en-tête) -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4">Bienvenue sur Gestion de Contrats</h1>
+            <p class="lead">Optimisez la gestion de vos contrats avec notre solution.</p>
+            <a class="btn btn-lg btn-custom" href="#section2" role="button">Découvrir plus</a>
+        </div>
+    </div>
+
+    <!-- Section A Propos -->
+    <div id="section2" class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="feature-box">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Contrats</h3>
+                    <p>Ajoutez de nombreux contrats</p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="feature-box">
+                    <i class="fas fa-bell"></i>
+                    <h3>Notifications</h3>
+                    <p>Soyez notifié à temps</p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="feature-box">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Sécurité</h3>
+                    <p>Tous vos contrats en sécurité</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Notre Équipe -->
+    <div id="section3">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Notre Équipe</h2>
+                <p class="lead">Rencontrez les personnes derrière Gestion de Contrats.</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="team-member">
+                        <h3>Karima El Moustakim</h3>
+                        <p>Stagiaire</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="team-member">
+                        <h3>M. Chaouki</h3>
+                        <p>Encadrant</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="team-member">
+                        <h3>Yassine Oudghiri</h3>
+                        <p>Stagiaire</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carousel de photos -->
+    <div id="section6" class="container">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'images/image2.jpg' %}" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/image4.jpg' %}" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/image3.png' %}" class="d-block w-100" alt="Slide 3">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Précédent</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Suivant</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Section Call-to-Action -->
+    <div id="section4" class="container text-center py-5">
+        <div class="row">
+            <div class="col">
+                <h2>Commencez dès aujourd'hui</h2>
+                <p>Optimisez votre gestion de contrats dès maintenant avec notre plateforme.</p>
+                <a class="btn btn-primary btn-lg" href="#">Inscrivez-vous maintenant</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Témoignages -->
+    <div id="section7">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Témoignages de nos utilisateurs</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial">
+                        <p>"La plateforme Gestion de Contrats a transformé notre façon de gérer nos documents. Hautement recommandée!"</p>
+                        <p class="testimonial-author">- Jean Dupont</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial">
+                        <p>"Très intuitive et sécurisée. Je ne peux plus me passer de cette application! . elle me faciliter la tache "</p>
+                        <p class="testimonial-author">- Marie Lefevre</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial">
+                        <p>"Le support client est exceptionnel. Merci à toute l'équipe pour leur réactivité!"</p>
+                        <p class="testimonial-author">- Pierre Martin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Contactez-nous -->
+    <div id="section5" class="container-fluid py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto text-center text-white">
+                    <h2>Contactez-nous</h2>
+                    <p class="contact-info">Pour toute question ou information complémentaire, n'hésitez pas à nous contacter.</p>
+                    <p class="contact-info">Email : contact@gestiondecontrats.com</p>
+                    <p class="contact-info">Téléphone : +1234567890</p>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Gestion de Contrats. Tous droits réservés.</p>
+    </footer>
+    <!-- Scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
